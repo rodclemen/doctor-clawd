@@ -10,9 +10,7 @@ let doctorVillains4: [DoctorVillain: Persona] = [
                   shot: .beam(core: C(0xFFF2F0), glow: C(0xFF4A3A)), armoured: true, canSit: false, muzzle: (46, 29),
                   handGun: false, headTop: 12,
                   draw: drawSupremeDalick),
-    .dalickEmperor: Persona(name: "Dalick Emperor", weapon: .blaster, motion: .hover,
-                  shot: .beam(core: C(0xFFF8E0), glow: C(0xFFB23A)), armoured: true, canSit: false, muzzle: (52, 27),
-                  handGun: false, bulk: 9, headTop: 3,
+    .dalickEmperor: Persona(name: "Dalick Emperor", motion: .hover, armoured: true, canSit: false, bulk: 9, headTop: 3,
                   draw: drawDalickEmperor),
     .mondasianCyberperson: Persona(name: "Mondasian Cyberperson", weapon: .blaster, shot: cyberShot, armoured: true,
                   canSit: false, muzzle: (47, 33), headTop: 15,
@@ -105,13 +103,13 @@ private func drawDalickCasing(_ c: PixelCanvas, _ p: Pose, _ paint: DalickPaint)
 
 /// The Dalick Emperor: a giant. A broad bronze-and-gold casing, its flared skirt studded with four rows of gold
 /// hemispheres, on a wide base; a gunstick at the collar; and over it a huge glass dome, where Clawd himself sits wired
-/// in, the Emperor's mutant. It hovers, bullets glance off it, its collar lamps blaze as it fires, and Clawd's eyes go
-/// red when it's hit.
+/// in, the Emperor's mutant. It hovers and bullets glance off it. It never fires a shot itself (its Dalicks do that):
+/// its collar lamps blaze when it's roused, and Clawd's eyes go red when it's hit.
 private func drawDalickEmperor(_ c: PixelCanvas, _ p: Pose) {
     let bronze = C(0xB8863A), bronzeShade = C(0x8A6024), gold = C(0xE8C860), goldDark = C(0x7A541C)
     let metal = C(0x34343C), metalLight = C(0x6A6A78), glass = C(0xBEE6F0)
-    let firing = p.fire.map { frac($0.t / p.firePeriod) < 0.3 } ?? false
-    let flash = firing && Int(p.t * 8) % 2 == 0
+    let roused = p.ready || p.cheering || p.hit
+    let flash = roused && Int(p.t * 8) % 2 == 0
 
     // The base and the skirt, flaring out to the ground.
     c.rect(6, 42, 46, 2, metal); c.rect(6, 42, 46, 1, metalLight)

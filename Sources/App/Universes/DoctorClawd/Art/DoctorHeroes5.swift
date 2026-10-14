@@ -22,7 +22,7 @@ let doctorHeroes5: [DoctorHero: Persona] = [
                   draw: drawAce),
     .rose: Persona(name: "Rose Tiler", headTop: 20, signature: 3.2,
                   draw: drawRose),
-    .jack: Persona(name: "Captain Jack Harkless", weapon: .blaster, muzzle: (47, 32), headTop: 20, signature: 3.4,
+    .jack: Persona(name: "Captain Jack Harkless", weapon: .blaster, shot: .bullet, muzzle: (47, 32), headTop: 20, signature: 3.4,
                   draw: drawJack),
 ]
 

@@ -11,7 +11,7 @@ let doctorVillains5: [DoctorVillain: Persona] = [
                   pivot: (43, 33), headTop: 12,
                   draw: drawSilents),
     .odd: Persona(name: "The Odd", weapon: .lightning, magic: Magic(core: C(0xFFD8D0), glow: C(0xE8202A)),
-                  pivot: (35, 32), headTop: 18,
+                  pivot: (41, 31), headTop: 18,
                   draw: drawOdd),
     .zygone: Persona(name: "Zygone", weapon: .lightning, magic: Magic(core: C(0xFFF4C8), glow: C(0xFF8A2A)),
                   pivot: (45, 33), headTop: 14,
@@ -31,7 +31,8 @@ let doctorVillains5: [DoctorVillain: Persona] = [
                   draw: drawVashtaNerado),
     .emptyKid: Persona(name: "The Empty Kid", headTop: 20, callout: "Are you my mummy?",
                   draw: drawEmptyKid),
-    .toclafayne: Persona(name: "Toclafayne", motion: .fly, canSit: false, headTop: 20,
+    .toclafayne: Persona(name: "Toclafayne", weapon: .blaster, motion: .fly, shot: .energy(core: C(0xFFE0D8), glow: C(0xFF3A2A)),
+                  canSit: false, muzzle: (37, 29), handGun: false, headTop: 20,
                   draw: drawToclafayne),
 ]
 
@@ -650,7 +651,7 @@ private func drawEmptyKid(_ c: PixelCanvas, _ p: Pose) {
 
 /// The Toclafayne: a little flying silver sphere, polished and panelled, with a single slot through which a tiny
 /// orange Clawd face peers. It bobs in the air; when it's on the move or roused, blades and spikes spin out from its
-/// middle and whirl. It never touches the ground.
+/// middle and whirl, and it fires red laser bolts from the front of its shell. It never touches the ground.
 private func drawToclafayne(_ c: PixelCanvas, _ p: Pose) {
     let silver = C(0xC8CCD4), light = C(0xF0F2F6), dark = C(0x8A8E98), deep = C(0x5A5E68)
     let bob = p.flying ? 0 : Int((sin(p.lt * 2.6) * 1.5).rounded())
@@ -689,4 +690,7 @@ private func drawToclafayne(_ c: PixelCanvas, _ p: Pose) {
     c.px(28, iy - 1, ink); c.px(32, iy - 1, ink)
     if fierce { c.px(28, iy - 2, ink); c.px(32, iy - 2, ink) }
     c.px(23, iy - 5, white)
+    // The laser port at the front, lit as it fires.
+    let lit = p.fire.map { frac($0.t / p.firePeriod) < 0.18 } ?? false
+    c.px(35, iy, lit ? C(0xFFE0D8) : C(0x8A2A22)); if lit { c.px(36, iy, C(0xFF3A2A, 0.7)) }
 }

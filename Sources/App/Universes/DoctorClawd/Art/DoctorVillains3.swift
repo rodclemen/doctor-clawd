@@ -11,8 +11,8 @@ let doctorVillains3: [DoctorVillain: Persona] = [
     .omegah: Persona(name: "Omegah", weapon: .lightning, magic: Magic(core: C(0xFFF0D8), glow: C(0xFF5A1E)),
                   headTop: 12,
                   draw: drawOmegah),
-    .rascilon: Persona(name: "Rascilon", weapon: .lightning, magic: Magic(core: C(0xFFFFFF), glow: C(0xF0B82A)),
-                  pivot: (42.5, 33), headTop: 9,
+    .rascilon: Persona(name: "Rascilon", weapon: .blaster, shot: .beam(core: C(0xFFFFFF), glow: C(0xF0B82A)),
+                  muzzle: (43, 32), handGun: false, headTop: 9,
                   draw: drawRascilon),
     .toyfaker: Persona(name: "The Celestial Toyfaker", weapon: .blaster, shot: .card, muzzle: (42, 31.5), headTop: 15,
                   signature: 2.8,
@@ -23,8 +23,8 @@ let doctorVillains3: [DoctorVillain: Persona] = [
     .grateIntelligence: Persona(name: "The Grate Intelligence", weapon: .blaster, shot: .ice, muzzle: (45, 30),
                   headTop: 15,
                   draw: drawGrateIntelligence),
-    .valeyarn: Persona(name: "The Valeyarn", weapon: .lightning, magic: Magic(core: C(0xF4E8FF), glow: C(0x9A4AE8)),
-                  headTop: 12,
+    .valeyarn: Persona(name: "The Valeyarn", weapon: .blaster, shot: .energy(core: C(0xF4E8FF), glow: C(0x9A4AE8)),
+                  muzzle: (47, 32), headTop: 12,
                   draw: drawValeyarn),
     .maestro: Persona(name: "The Maestro", weapon: .lightning, magic: Magic(core: C(0xFFF4FF), glow: C(0xE84AC8), jagged: false),
                   pivot: maestroBaton, headTop: 15, signature: 3.2,
@@ -193,7 +193,7 @@ private func drawOmegah(_ c: PixelCanvas, _ p: Pose) {
 
 /// Rascilon: the founder of the Time Lords, in scarlet robes with the great round collar fanned up behind his head,
 /// scarlet and gold and ribbed, a gold skullcap, the Seal on his chest and the gold gauntlet on his right hand, which
-/// fires white-gold lightning.
+/// fires a white-gold beam that unmakes whoever it hits.
 private func drawRascilon(_ c: PixelCanvas, _ p: Pose) {
     let robe = C(0xB0242A), robeDark = C(0x7A161C), gold = C(0xE8C04A), goldDark = C(0xA8842A), goldLight = C(0xFFE89A)
     c.oy += p.breathe
@@ -217,7 +217,7 @@ private func drawRascilon(_ c: PixelCanvas, _ p: Pose) {
     drawLegs(c, Look(leg: robeDark), step: p.step)
     drawRobeSkirt(c, robe, robeDark)
     c.oy += p.breathe
-    drawBody(c, Look(arm: robe), armRight: p.armRaise)
+    drawBody(c, Look(arm: robe))
     // The robe, the collar's points down his front, the Seal.
     c.rect(18, 33, 20, 5, robe); c.rect(37, 33, 1, 5, robeDark)
     c.pattern(17, 31, [
@@ -237,10 +237,10 @@ private func drawRascilon(_ c: PixelCanvas, _ p: Pose) {
         "gggggggggggggggggggg",
     ], ["G": gold, "L": goldLight, "g": goldDark])
     // The gauntlet.
-    let r = p.armRaise
+    let r = -p.gunY, lit = p.fire.map { frac($0.t / p.firePeriod) < 0.18 } ?? false
     c.rect(38, 31 - r, 4, 4, gold); c.rect(38, 34 - r, 4, 1, goldDark); c.rect(41, 31 - r, 1, 3, goldDark)
     c.px(39, 32 - r, goldLight)
-    if p.zap != nil { c.px(42, 32 - r, goldLight) }
+    if lit { c.px(42, 32 - r, goldLight); c.px(43, 32 - r, C(0xFFFFFF, 0.6)) }
 }
 
 // MARK: - The Celestial Toyfaker
@@ -425,7 +425,8 @@ private func drawGrateIntelligence(_ c: PixelCanvas, _ p: Pose) {
 // MARK: - The Valeyarn
 
 /// The Valeyarn, the Doctor's darkest side: black robes with a tall stiff collar standing up square behind his head,
-/// flaring to points at the top, trimmed silver and lined in plum, a black skullcap over a sharp widow's peak, and a cold stare. Violet lightning.
+/// flaring to points at the top, trimmed silver and lined in plum, a black skullcap over a sharp widow's peak, and a cold stare.
+/// He has no powers of his own to throw: he carries a black Gallifreyan pistol that fires violet bolts.
 private func drawValeyarn(_ c: PixelCanvas, _ p: Pose) {
     let robe = C(0x1C1C22), robeLight = C(0x34343E), silver = C(0xA8ACB8), silverDark = C(0x6A6E7A)
     let lining = C(0x3A2242), liningLight = C(0x4E3058)
@@ -454,7 +455,7 @@ private func drawValeyarn(_ c: PixelCanvas, _ p: Pose) {
     drawLegs(c, Look(leg: robe), step: p.step)
     drawRobeSkirt(c, robe, robeLight)
     c.oy += p.breathe
-    drawBody(c, Look(arm: robe, eye: nil), armRight: p.armRaise)
+    drawBody(c, Look(arm: robe, eye: nil))
     c.rect(22, 30, 2, 2, ink); c.rect(32, 30, 2, 2, ink)              // narrowed eyes
     c.rect(21, 28, 3, 1, C(0x8A3E26)); c.rect(32, 28, 3, 1, C(0x8A3E26))   // brows, down at the middle
     c.px(24, 29, C(0x8A3E26)); c.px(31, 29, C(0x8A3E26))
@@ -478,6 +479,10 @@ private func drawValeyarn(_ c: PixelCanvas, _ p: Pose) {
         "H.........H........H",
     ], ["C": robe, "c": robeLight, "H": C(0x2A2420)])
     c.rect(18, 25, 20, 1, silverDark)
+    // The pistol in his right hand.
+    c.oy += p.gunY
+    c.rect(38, 33, 3, 3, robe)
+    drawPistol(c, x: 40, y: 31, body: C(0x16161C), trim: silver)
 }
 
 // MARK: - The Maestro

@@ -2,7 +2,8 @@ import Foundation
 
 // Villains: the renegade Time Lords. The Master in every face he's worn, and the Ranee. Clawd in costume each time, but
 // no two alike at a glance: the suit, the hair and beard, the collar and the weapon's colour tell them apart. Most of
-// them carry the tissue compression eliminator, a short black rod with a glowing tip.
+// them carry the tissue compression eliminator, a short black rod with a glowing tip; Sexton has his laser
+// screwdriver and the Snakeskin Master spits venom.
 
 let doctorVillains2: [DoctorVillain: Persona] = [
     .master: Persona(name: "The Master", weapon: .blaster, shot: .beam(core: C(0xE8FFE8), glow: C(0x3AE85A)),
@@ -14,9 +15,8 @@ let doctorVillains2: [DoctorVillain: Persona] = [
     .velvetMaster: Persona(name: "The Velvet Master", weapon: .blaster, shot: .beam(core: C(0xF0FFD8), glow: C(0x9AE83A)),
                   muzzle: (47, 33), headTop: 21,
                   draw: drawVelvetMaster),
-    .snakeskinMaster: Persona(name: "The Snakeskin Master", weapon: .lightning,
-                  magic: Magic(core: C(0xE8FFD0), glow: C(0x4ADA2A)),
-                  pivot: (39, 34), headTop: 21,
+    .snakeskinMaster: Persona(name: "The Snakeskin Master", weapon: .blaster, shot: .energy(core: C(0xE8FFD0), glow: C(0x4ADA2A)),
+                  muzzle: (38, 33), handGun: false, headTop: 21,
                   draw: drawSnakeskinMaster),
     .sexton: Persona(name: "Mister Sexton", weapon: .lightning, magic: Magic(core: C(0xFFE8C8), glow: C(0xFF2A1E), jagged: false),
                   pivot: sonicTip, headTop: 23, signature: 2.6,
@@ -24,8 +24,8 @@ let doctorVillains2: [DoctorVillain: Persona] = [
     .missy: Persona(name: "Missy", weapon: .blaster, motion: .hover, shot: .energy(core: C(0xFFE0F4), glow: C(0xE03AB8)),
                   muzzle: (53, 33), headTop: 15, signature: 3.4,
                   draw: drawMissy),
-    .spyMaster: Persona(name: "The Spy Master", weapon: .lightning, magic: Magic(core: C(0xFFF8D0), glow: C(0xE8B020)),
-                  headTop: 21,
+    .spyMaster: Persona(name: "The Spy Master", weapon: .blaster, shot: .beam(core: C(0xFFF8D0), glow: C(0xE8B020)),
+                  muzzle: (47, 33), headTop: 21,
                   draw: drawSpyMaster),
     .ranee: Persona(name: "The Ranee", weapon: .blaster, shot: .energy(core: C(0xE0FFF8), glow: C(0x2AC8B0)),
                   muzzle: (47, 33), headTop: 14,
@@ -238,8 +238,8 @@ private func drawVelvetMaster(_ c: PixelCanvas, _ p: Pose) {
 // MARK: - The Snakeskin Master
 
 /// The Snakeskin Master: Clawd with slicked-back black hair, black wraparound sunglasses with a glint, and a
-/// snakeskin jacket (olive diamonds on dark scales) over a black shirt. He has no gun: he spits, a forked stream of
-/// acid green venom from his mouth, his jaw dropping open as he does.
+/// snakeskin jacket (olive diamonds on dark scales) over a black shirt. He has no gun: he spits gobs of acid-green
+/// venom from his mouth, his jaw dropping open as he does.
 private func drawSnakeskinMaster(_ c: PixelCanvas, _ p: Pose) {
     let skin = C(0x4A5230), scale = C(0x7A8A48), scaleDark = C(0x2A3018), shirt = C(0x141418)
     let hair = C(0x101014), hairLight = C(0x34343E), lens = C(0x0A0A0E), green = C(0x4ADA2A)
@@ -270,10 +270,10 @@ private func drawSnakeskinMaster(_ c: PixelCanvas, _ p: Pose) {
     c.rect(20, 29, 6, 3, lens); c.rect(30, 29, 6, 3, lens); c.rect(26, 29, 4, 1, lens)
     c.px(21, 29, C(0x8A8E98)); c.px(31, 29, C(0x8A8E98))
     // The venom: jaw open, a drip of green.
-    if p.zap == true {
+    if firing(p) {
         c.rect(33, 32, 5, 2, C(0x1A0A0A)); c.rect(34, 33, 3, 1, C(0x5A1A1A))
         c.px(36, 34 + Int(p.t * 6) % 2, green)
-    } else if p.zap == false {
+    } else if p.fire != nil {
         c.rect(34, 32, 4, 1, C(0x1A0A0A)); c.px(36, 33, green.alpha(0.7))
     } else {
         c.rect(32, 32, 4, 1, C(0x5A2A1A))   // a sneer
@@ -441,14 +441,14 @@ private func drawMissy(_ c: PixelCanvas, _ p: Pose) {
 // MARK: - The Spy Master
 
 /// The Spy Master: Clawd in a brown suit with a purple shirt and pocket square, short dark hair swept up at the front
-/// and a full, close-trimmed beard round the jaw. No gun: he throws crackling yellow energy from his hand.
+/// and a full, close-trimmed beard round the jaw. He carries the tissue compression eliminator too, gold-tipped.
 private func drawSpyMaster(_ c: PixelCanvas, _ p: Pose) {
     let suit = C(0x6A4A30), suitDark = C(0x4A321E), suitLight = C(0x8A6444), shirt = C(0x6A2A8A), shirtLight = C(0x8A4AAA)
     let hair = C(0x16120E), hairLight = C(0x3A2A1E)
     drawLegs(c, Look(leg: suit), step: p.step)
     drawShoes(c, step: p.step, C(0x2A1A10))
     c.oy += p.breathe
-    drawBody(c, Look(arm: suit), armRight: p.armRaise)
+    drawBody(c, Look(arm: suit))
     // The suit: jacket over the purple shirt, a purple pocket square.
     c.rect(18, 33, 20, 5, suit)
     c.rect(25, 33, 6, 5, shirt); c.rect(27, 33, 2, 1, shirtLight)
@@ -456,8 +456,6 @@ private func drawSpyMaster(_ c: PixelCanvas, _ p: Pose) {
     c.rect(37, 33, 1, 5, suitDark); c.rect(18, 37, 20, 1, suitDark)
     c.rect(33, 35, 2, 1, shirtLight)
     c.rect(15, 33, 3, 3, suit)
-    c.rect(38, 33 - p.armRaise, 3, 3, suit)
-    if p.zap != nil { c.rect(41, 33 - p.armRaise, 1, 2, clawdOrange) }   // the open hand
     // The hair: short, swept up into a quiff at the front.
     c.pattern(17, 21, [
         "...............HHH....",
@@ -475,6 +473,10 @@ private func drawSpyMaster(_ c: PixelCanvas, _ p: Pose) {
     c.rect(19, 32, 18, 2, hair); c.rect(25, 31, 7, 1, hair)
     c.rect(26, 32, 5, 1, C(0x5A2A1A))   // the smirk inside it
     c.px(20, 33, hairLight); c.px(34, 33, hairLight)
+    // The right arm and his eliminator, gold-tipped.
+    c.oy += p.gunY
+    c.rect(38, 33, 3, 3, suit)
+    drawEliminator(c, body: C(0x18181C), band: C(0xC89A2A), tip: C(0xE8B020), lit: firing(p))
 }
 
 // MARK: - The Ranee
