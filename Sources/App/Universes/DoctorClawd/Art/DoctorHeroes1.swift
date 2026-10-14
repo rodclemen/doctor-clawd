@@ -11,12 +11,12 @@ let doctorHeroes1: [DoctorHero: Persona] = [
 ]
 
 /// Where a Doctor's sonic screwdriver tip is, held out: the ray leaves from there (raised by the pose's `armRaise`).
-private let sonicTip = (x: 46.0, y: 30.0)
+let sonicTip = (x: 46.0, y: 30.0)
 
 // MARK: - Shared bits
 
 /// Trainers on the four feet, `upper` canvas over a white sole; the lifted pair a row higher while walking.
-private func drawTrainers(_ c: PixelCanvas, step: Int, upper: Px, sole: Px = C(0xF2F0EA)) {
+func drawTrainers(_ c: PixelCanvas, step: Int, upper: Px, sole: Px = C(0xF2F0EA)) {
     guard !seatedPose else { return }
     for (i, lx) in [19, 23, 31, 35].enumerated() {
         let y = step >= 0 && i % 2 == step ? 41 : 42
@@ -26,7 +26,7 @@ private func drawTrainers(_ c: PixelCanvas, step: Int, upper: Px, sole: Px = C(0
 
 /// The sonic screwdriver in the right hand. Pointed out (`out`), its tip at `sonicTip`, `lift` higher, lit while it
 /// buzzes; at rest, held upright in the fist.
-private func drawSonic(_ c: PixelCanvas, out: Bool, lift: Int, lit: Bool, tip: Px, t: Double) {
+func drawSonic(_ c: PixelCanvas, out: Bool, lift: Int, lit: Bool, tip: Px, t: Double) {
     let grip = C(0x4A4A52), steel = C(0xC8CCD4), claw = C(0x8A8E98)
     let glow = lit ? tip : tip.alpha(0.55)
     if out {
@@ -39,7 +39,7 @@ private func drawSonic(_ c: PixelCanvas, out: Bool, lift: Int, lit: Bool, tip: P
 }
 
 /// Thick black-framed glasses over the eyes.
-private func drawSpecs(_ c: PixelCanvas) {
+func drawSpecs(_ c: PixelCanvas) {
     let frame = C(0x16161B)
     for x0 in [20, 30] {
         c.rect(x0, 28, 6, 1, frame); c.rect(x0, 32, 6, 1, frame); c.rect(x0, 28, 1, 5, frame); c.rect(x0 + 5, 28, 1, 5, frame)

@@ -65,8 +65,8 @@ func cast(named n: String) -> [Cast] {
     let swHeroes = [starWarsHeroes1, starWarsHeroes2, starWarsHeroes3]
     let swVillains = [starWarsVillains1, starWarsVillains2, starWarsVillains3]
     let dcHeroes = [dcHeroes1, dcHeroes2, dcHeroes3, dcHeroes4, dcHeroes5, dcHeroes6, dcHeroes7, dcHeroes8, dcHeroes9, dcHeroes10]
-    let doctorHeroes = [doctorHeroes1]
-    let doctorVillains = [doctorVillains1]
+    let doctorHeroes = [doctorHeroes1, doctorHeroes2, doctorHeroes3, doctorHeroes4, doctorHeroes5, doctorHeroes6, doctorHeroes7]
+    let doctorVillains = [doctorVillains1, doctorVillains2, doctorVillains3, doctorVillains4, doctorVillains5]
     let dcVillains = [dcVillains1, dcVillains2, dcVillains3, dcVillains4, dcVillains5, dcVillains6, dcVillains7, dcVillains8, dcVillains9]
     var batches: [String: [Cast]] = [
         "marvel": Theme.of(.marvel).cast, "starWars": Theme.of(.starWars).cast, "dc": Theme.of(.dc).cast,
