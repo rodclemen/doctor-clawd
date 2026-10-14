@@ -2993,17 +2993,20 @@ func doctorSound(_ m: Mix) {
     m.tone(i0 + 7.6, 1.2, 200, to: 3200, wave: .saw, vol: 0.05, attack: 0.3, release: 0.1)
     m.noise(i0 + 7.8, 1.2, vol: 0.12, cutoff: 0.05, cutoffTo: 0.9, attack: 0.6, release: 0.3, seed: 9)
     let inv = start("invasion")
-    for i in 0..<Int(9.5 / 0.4) { m.tone(inv + Double(i) * 0.4, 0.3, midi(i % 4 == 3 ? 31 : 28), wave: .saw, vol: 0.04 + 0.03 * min(1, Double(i) / 10), release: 0.1) }
+    for i in 0..<Int(9.5 / 0.4) { m.tone(inv + Double(i) * 0.4, 0.3, midi(i % 4 == 3 ? 31 : 28), wave: .saw, vol: 0.06 + 0.04 * min(1, Double(i) / 10), release: 0.1); m.kick(inv + Double(i) * 0.4, vol: 0.12 + 0.1 * min(1, Double(i) / 8)) }
     for i in 0..<4 { m.tone(inv + 0.3 + Double(i) * 0.32, 1.2, 140, to: 90, wave: .sine, vol: 0.06, attack: 0.2, release: 0.4) }   // the Dalicks coming down
-    m.exterminate(inv + 2.2)
+    m.exterminate(inv + 2.2, vol: 0.13)
+    for (s, chord) in [(0.0, [40, 43, 47]), (3.2, [41, 44, 48]), (6.4, [40, 44, 47])] {
+        for n in chord { m.tone(inv + s, 3.2, midi(n), wave: .saw, vol: 0.03, attack: 0.4, release: 0.6) }
+    }
     var b = inv + 2.8
-    while b < inv + 5.4 { m.dalickBeam(b, vol: 0.05); b += 0.17 }
-    m.wheeze(inv + boxIn, cycles: 3, vol: 0.12)
+    while b < inv + 5.4 { m.dalickBeam(b, vol: 0.07); b += 0.17 }
+    m.wheeze(inv + boxIn, cycles: 3, vol: 0.18)
     m.clunk(inv + doorOpen, vol: 0.1)
     for k in 0..<5 { m.step(inv + 5.8 + Double(k) * 0.16, vol: 0.07) }
     for i in 0..<4 {
         let z = inv + zapFrom + Double(i) * zapEach
-        m.sonic(z, zapEach * 0.95)
+        m.sonic(z, zapEach * 0.95, vol: 0.08)
         m.tone(z + zapEach * 0.7, 0.9, 600, to: 1500, wave: .square(0.3), vol: 0.03, release: 0.3)   // whirring off
     }
     groove(m, from: start("hook"), to: start("endcard"), fadeIn: 1.2)
