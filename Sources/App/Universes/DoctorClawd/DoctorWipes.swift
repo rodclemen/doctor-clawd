@@ -198,14 +198,14 @@ struct DoctorTrip {
         // The Angle, closer after each blink, gone on the new place.
         let seen = i + (f > 0.5 ? 1 : 0)
         if !opensOnNew && seen > 0 {
-            let size = r.height / 800 * CGFloat([0, 4.0, 7.5, 13.0][min(seen, 3)])
+            let size = r.height / 800 * CGFloat([0, 4.0, 6.5, 9.5][min(seen, 3)])
             let who = Cast.villain(.weepingAngle)
             let canvas = PixelCanvas(Sprite.width, Sprite.height)
             who.draw(canvas, t: 0, mode: seen >= 3 ? .working : .idle, walking: false, role: seen >= 3 ? .hit : .none,
                      asSession: false)
             canvas.addOutline(C(0x0A0A0A))
             if let img = canvas.makeImage() {
-                let feet = r.minY + r.height * 0.12 - CGFloat(seen >= 3 ? 10 : 0) * size
+                let feet = r.minY + r.height * 0.1
                 ctx.draw(img, in: CGRect(x: r.midX - CGFloat(Sprite.bodyCenterX) * size, y: feet - 8 * size,
                                          width: CGFloat(Sprite.width) * size, height: CGFloat(Sprite.height) * size))
             }
