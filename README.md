@@ -19,7 +19,7 @@
 
 https://github.com/user-attachments/assets/0d2b3baf-7cc7-4742-a2e5-7c2cea5372b7
 
-<p align="center"><sub>🔊 <b>Click the speaker in the player for sound</b>: GitHub starts videos muted.</sub></p>
+<p align="center"><sub>🔊 <b>Click the speaker in the player for sound</b>: GitHub starts videos muted. Full 1080p version: <a href="promo/doctor-clawd-promo.mp4">promo/doctor-clawd-promo.mp4</a></sub></p>
 
 > **Doctor Clawd is a universe of [Clawd Clash](https://github.com/rodclemen/clawd-clash).** Same crew, same fights, three more universes to switch to. This page shows off the Doctor Clawd universe; see [Get it](#get-it) to install.
 
