@@ -119,6 +119,17 @@ let dcLineup: [[Extra]] = [
      Extra(who: .villain(DCVillain.joker), leader: true, label: "The Joker", x: 352, facing: -1, role: .shoot(offset: 0))],
     [Extra(who: .hero(DCHero.flash), leader: false, label: "Run the test suite", x: 388, facing: 1, role: .cheer)],
 ]
+let doctorLineup: [[Extra]] = [
+    [Extra(who: .villain(DoctorVillain.davross), leader: true, label: "Davross", x: 30, facing: 1, role: .zap),
+     Extra(who: .hero(DoctorHero.doctorTen), leader: true, label: "Doctor Ten", x: 98, facing: -1, role: .hit)],
+    [Extra(who: .hero(DoctorHero.jack), leader: false, label: "Check git history", x: 132, facing: 1, role: .shoot(offset: 0)),
+     Extra(who: .villain(DoctorVillain.cyberperson), leader: false, label: "Write changelog", x: 182, facing: -1, role: .shoot(offset: blasterPeriod / 2))],
+    [Extra(who: .hero(DoctorHero.rory), leader: false, label: "Plan the refactor", x: 214, facing: 1, role: .duel),
+     Extra(who: .villain(DoctorVillain.clockworkDroid), leader: false, label: "Review Overlay.swift", x: 244, facing: -1, role: .duel)],
+    [Extra(who: .hero(DoctorHero.vasta), leader: true, label: "Madame Vasta", x: 282, facing: 1, role: .deflect),
+     Extra(who: .villain(DoctorVillain.dalick), leader: true, label: "Dalick", x: 352, facing: -1, role: .shoot(offset: 0))],
+    [Extra(who: .hero(DoctorHero.kCanine), leader: false, label: "Run the test suite", x: 388, facing: 1, role: .cheer)],
+]
 func desktop(_ lineup: [[Extra]], file: String) {
 let desktop = canvas(2600, 400) { ctx in
     var tags: [CGRect] = []   // labels already placed: one that would overlap moves up a row, as in the app
@@ -173,6 +184,7 @@ print("wrote \(out)/\(file)")
 desktop(starWarsLineup, file: "desktop-star-clawds.png")
 desktop(marvelLineup, file: "desktop-marvelous-clawds.png")
 desktop(dcLineup, file: "desktop-detective-clawds.png")
+desktop(doctorLineup, file: "desktop-doctor-clawd.png")
 
 // MARK: Locations (one sheet per universe)
 
@@ -276,4 +288,8 @@ socialPreview(title: "JUSTICE CLAWDS: CLAWD WARS", subtitle: "Your Claude Code s
               groups: [[.hero(DCHero.superman), .hero(DCHero.batman), .hero(DCHero.wonderWoman), .hero(DCHero.flash),
                         .villain(DCVillain.joker), .villain(DCVillain.lexLuthor), .villain(DCVillain.darkseid), .villain(DCVillain.harleyQuinn)]],
               file: "social-preview-detective-clawds.png")
+socialPreview(title: "DOCTOR CLAWD", subtitle: "Your Claude Code sessions as a pixel-art time-travel battle on your desktop",
+              groups: [[.hero(DoctorHero.doctorTen), .hero(DoctorHero.doctorFour), .hero(DoctorHero.rose), .hero(DoctorHero.doctorEleven),
+                        .villain(DoctorVillain.dalick), .villain(DoctorVillain.master), .villain(DoctorVillain.cyberperson), .villain(DoctorVillain.weepingAngle)]],
+              file: "social-preview-doctor-clawd.png")
 print("wrote the social previews to \(out)")
