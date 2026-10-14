@@ -34,6 +34,8 @@ private struct Actor {
     var detail: [String] = []    // hover card lines
     var exit: (landX: CGFloat, dir: CGFloat, startX: CGFloat)?   // picked up by its ship (`Cast.ride`)
     var air: CGFloat = 0         // a flyer: 0 on the ground … 1 cruising in the air
+    var watched: CGFloat = 0     // a Weeping Angle: seconds it's been held still by someone looking at it
+    var regenerated: Double?     // a Doctor's session: when it last regenerated (the golden flare plays for a moment)
 
     var isLeader: Bool { if case .leader = kind { return true } else { return false } }
     var cast: Cast { switch kind { case .leader(let c), .agent(let c): return c } }
@@ -210,7 +212,9 @@ final class OverlayController: NSObject, NSMenuDelegate, NSApplicationDelegate, 
         panel.contentView = view
 
         Universe.shown = Self.universe
-        StatusStore.setUniverse(Self.universe, saver: nil)   // the hook casts from it
+        if playground == nil && !demo && chaosSeconds == nil && shotPath == nil {
+            StatusStore.setUniverse(Self.universe, saver: nil)   // the hook casts from it (test runs leave it alone)
+        }
         home = clampHome(savedHome())     // re-applies the edge snap, so positions saved under older rules are corrected
         if windowMode { openWindow() }
         refreshStatus()
@@ -775,6 +779,7 @@ final class OverlayController: NSObject, NSMenuDelegate, NSApplicationDelegate, 
                 actors[idx].bubble = bubble; actors[idx].urgent = urgent
                 actors[idx].accent = accent; actors[idx].focused = focused
                 actors[idx].sitting = sitting; actors[idx].detail = detail
+                actors[idx].regenerated = u.session?.record?.regenerated
             } else {
                 // Newcomers walk in from the side, one at a time (from agent-view's walk-in through the door).
                 var startX = target, born = now
@@ -789,6 +794,7 @@ final class OverlayController: NSObject, NSMenuDelegate, NSApplicationDelegate, 
                 a.mood = mood; a.mode = mode; a.label = label; a.pid = pid; a.assistant = assistant
                 a.bubble = bubble; a.urgent = urgent; a.accent = accent; a.focused = focused
                 a.sitting = sitting; a.detail = detail
+                a.regenerated = u.session?.record?.regenerated
                 actors.append(a)
             }
         }
@@ -828,8 +834,11 @@ final class OverlayController: NSObject, NSMenuDelegate, NSApplicationDelegate, 
             return [SessionSnapshot(id: "home", leader: 0, project: "", mood: .idle, agents: crew)]
         }
         // Sample details so the Playground's cards look like live ones.
-        let prompts = ["add a snowtaunt", "make the window resize to fit the Claudes", "why does the duel not start?",
-                       "write a nice README with screenshots", "fix the portrait crop for wide characters"]
+        let prompts = Universe.shown == .doctor
+            ? ["make the rotor pump faster", "make the window resize to fit the Claudes", "why won't the Angle move?",
+               "write a nice README with screenshots", "fix the portrait crop for the Dalick Emperor"]
+            : ["add a snowtaunt", "make the window resize to fit the Claudes", "why does the duel not start?",
+               "write a nice README with screenshots", "fix the portrait crop for wide characters"]
         let nowActs = ["Edit WindowMode.swift", "Bash: swift build", "Read Locations.swift", "Grep opaqueBounds", "Agent: Review the diff"]
         // Agents join the first villain. Empty project → the label shows the villain's name.
         return villains.enumerated().map { i, l in
@@ -890,11 +899,27 @@ final class OverlayController: NSObject, NSMenuDelegate, NSApplicationDelegate, 
         for i in actors.indices {
             if now < actors[i].born { continue }        // waiting for its turn to walk in
             let d = actors[i].targetX - actors[i].x
+            // A Weeping Angle only moves while nobody's looking at it, and then quickly. Held still too long, it gets
+            // its chance anyway: somebody blinked.
+            var pace: CGFloat = 1
+            if actors[i].cast == .villain(DoctorVillain.weepingAngle), !dragging, abs(d) >= 0.5 {
+                let me = actors[i]
+                let seen = actors.contains { o in
+                    o.key != me.key && o.leaving == nil && now >= o.born && (o.walkDir != 0 ? o.walkDir : o.facing) * (me.x - o.x) > 0
+                }
+                if seen && actors[i].watched < 8 {
+                    actors[i].watched += dt
+                    actors[i].walkDir = 0
+                    continue
+                }
+                actors[i].watched = 0
+                pace = 2.5
+            }
             if dragging || abs(d) < 0.5 {
                 actors[i].x = actors[i].targetX
                 actors[i].walkDir = 0
             } else {
-                let stepLen = min(abs(d), Self.walkSpeed * zoom * dt)
+                let stepLen = min(abs(d), Self.walkSpeed * pace * zoom * dt)
                 actors[i].x += d > 0 ? stepLen : -stepLen
                 actors[i].walkDir = d > 0 ? 1 : -1
             }
@@ -1093,7 +1118,8 @@ final class OverlayController: NSObject, NSMenuDelegate, NSApplicationDelegate, 
                 // ramp up, lift off and away (0.72–1).
                 let p = min(1, (now - left) / falconExit)
                 let cs0 = Self.companionScale * z
-                let rampFoot = exit.landX - exit.dir * 14 * cs0
+                // The ships' ramps come down 14 px left of centre; the TARDIS's open door is 6 px left of it.
+                let rampFoot = exit.landX - exit.dir * (actor.cast.ride?.materialises == true ? 6 : 14) * cs0
                 if p >= 0.36 && p < 0.62 {
                     let k = (p - 0.36) / 0.26
                     actor.x = exit.startX + (rampFoot - exit.startX) * CGFloat(k)
@@ -1123,6 +1149,7 @@ final class OverlayController: NSObject, NSMenuDelegate, NSApplicationDelegate, 
                 who.draw(canvas, t: t, mode: role != nil ? .working : actor.mode, walking: walking, role: role ?? .none,
                          urgent: actor.urgent && role == nil, sitting: actor.sitting, asSession: true,
                          airborne: walking && air > 0.3, aloft: !walking && air > 0.3)
+                if let r = actor.regenerated, now - r < regenerationFlare { drawRegeneration(canvas, k: (now - r) / regenerationFlare, t: t) }
                 scale = ls; y = ground
             case .agent(let who):
                 let role = roles[actor.key]
@@ -1430,6 +1457,21 @@ final class OverlayController: NSObject, NSMenuDelegate, NSApplicationDelegate, 
         let z = zoom
         var x = exit.landX, lift: CGFloat = 0
         var ramp = 0.0, engines = false, gear = true
+        var alpha: CGFloat = 1
+        if ride.materialises {
+            // The TARDIS fades in where it stands, wheezing in and out of view with its lamp flashing; the door opens,
+            // they step in, and it fades away the same way.
+            let pulse = { (k: Double) -> CGFloat in CGFloat(min(1, max(0, k * (0.75 + 0.25 * sin(k * 7 * .pi))))) }
+            if p < 0.3 { alpha = pulse(p / 0.3); engines = Int(p * 40) % 2 == 0 }
+            else if p < 0.72 { ramp = p < 0.36 ? (p - 0.3) / 0.06 : (p < 0.64 ? 1 : max(0, 1 - (p - 0.64) / 0.06)) }
+            else { alpha = pulse(1 - (p - 0.72) / 0.28); engines = Int(p * 40) % 2 == 0 }
+            let c = PixelCanvas(Ride.width, ride.canvasHeight)
+            drawRide(c, ride, ramp: ramp, engines: engines, gear: true)
+            c.addOutline(C(0xFFFFFF, 0.92))
+            let w = CGFloat(Ride.width) * s, h = CGFloat(ride.canvasHeight) * s
+            return DrawItem(image: c.makeImage(), rect: NSRect(x: (x - w / 2).rounded(), y: (feet - 1 * s).rounded(), width: w, height: h),
+                            mirrored: exit.dir < 0, alpha: alpha)
+        }
         if p < 0.3 {                                   // swoops in overhead and settles
             let e = CGFloat(1 - pow(1 - p / 0.3, 2))
             x = exit.landX - exit.dir * 260 * z * (1 - e)

@@ -21,10 +21,10 @@ enum Universe: Int, CaseIterable, Codable {
     var base: Int { rawValue * 1000 }
 
     var villainCount: Int {
-        switch self { case .starWars: return 46; case .marvel: return 88; case .dc: return 97; case .doctor: return 1 }
+        switch self { case .starWars: return 46; case .marvel: return 88; case .dc: return 97; case .doctor: return 42 }
     }
     var heroCount: Int {
-        switch self { case .starWars: return 36; case .marvel: return 106; case .dc: return 111; case .doctor: return 2 }
+        switch self { case .starWars: return 36; case .marvel: return 106; case .dc: return 111; case .doctor: return 56 }
     }
 
     /// HEM: the same rare face in every universe, last of the heroes. He's never in the regular pools (`lightCast`);
@@ -41,7 +41,7 @@ enum Universe: Int, CaseIterable, Codable {
         case .marvel: return Set([11, 33, 190, 202, 203, 204].map { base + $0 })  // Ultron Sentry, Doombot, Jeff, Zabu, Morris, Dum-E
         // Joker Goon, Dex-Starr, Mister Mind, Krypto, Ch'p, Ace the Bat-Hound, Streaky, Gleek, Beppo
         case .dc: return Set([22, 49, 77, 131, 139, 206, 207, 208, 209].map { base + $0 })
-        case .doctor: return []
+        case .doctor: return Set([39, 40, 41].map { base + $0 })                // Adipoze, Cybermite, Toclafayne
         }
     }
 
@@ -51,6 +51,12 @@ enum Universe: Int, CaseIterable, Codable {
 
     /// Characters that never lead two sessions back to back (Vader and Kylo), as global ids.
     var rivals: Set<Int> { self == .starWars ? [0, 1] : [] }
+
+    /// Doctor Clawd: the Doctors in order (One … Fifteen), as global ids. When a session's context is compacted, its
+    /// Doctor regenerates into the next one (`StatusStore`'s PreCompact); nobody else changes.
+    var regenerations: [Int] {
+        self == .doctor ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10, 11, 12, 13, 14].map { base + StatusStore.heroBase + $0 } : []
+    }
 
     var darkCast: [Int] { (0..<villainCount).map { base + $0 } }
     var lightCast: [Int] { (0..<heroCount - 1).map { base + StatusStore.heroBase + $0 } }   // all but HEM

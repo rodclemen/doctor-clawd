@@ -4,7 +4,7 @@ import Foundation
 enum HookInstaller {
     static let events = [
         "SessionStart", "SessionEnd", "UserPromptSubmit", "PreToolUse", "PostToolUse", "PostToolUseFailure",
-        "PermissionRequest", "Notification", "Stop", "StopFailure", "SubagentStart", "SubagentStop",
+        "PermissionRequest", "Notification", "Stop", "StopFailure", "SubagentStart", "SubagentStop", "PreCompact",
     ]
     static let toolEvents: Set<String> = ["PreToolUse", "PostToolUse", "PostToolUseFailure", "PermissionRequest"]
     /// The hook binary's name. Hooks of the apps Clawd Clash replaces (Clawd Wars' `clawd-wars-hook` and its older

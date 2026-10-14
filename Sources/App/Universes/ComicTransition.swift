@@ -1,13 +1,15 @@
 import CoreGraphics
 
-/// A comic-book trip between two places, in a universe that has them: Marvel's (`ComicTrip`) or DC's (`DCComicTrip`).
+/// A comic-book trip between two places, in a universe that has them: Marvel's (`ComicTrip`), DC's (`DCComicTrip`) or
+/// Doctor Clawd's trips through time and space (`DoctorTrip`).
 /// Star Wars has none: it keeps its edge and clock wipes (`Wipe`). Shared by the window and the screen saver.
 enum ComicTransition {
     case marvel(ComicTrip)
     case dc(DCComicTrip)
+    case doctor(DoctorTrip)
 
     var duration: Double {
-        switch self { case .marvel(let t): return t.duration; case .dc(let t): return t.duration }
+        switch self { case .marvel(let t): return t.duration; case .dc(let t): return t.duration; case .doctor(let t): return t.duration }
     }
 
     /// A frame `k` (0…1) of the way from `old` to `new`, over the whole of `r`.
@@ -15,6 +17,7 @@ enum ComicTransition {
         switch self {
         case .marvel(let t): t.draw(ctx, old: old, new: new, k: k, in: r)
         case .dc(let t): t.draw(ctx, old: old, new: new, k: k, in: r)
+        case .doctor(let t): t.draw(ctx, old: old, new: new, k: k, in: r)
         }
     }
 
@@ -22,7 +25,7 @@ enum ComicTransition {
     /// uses plain wipes.
     static func pick(after last: ComicTransition?, cast: [Cast], to place: Location) -> ComicTransition? {
         switch place.universe {
-        case .starWars, .doctor:   // Doctor Clawd: plain wipes until its own trips are in
+        case .starWars:
             return nil
         case .marvel:
             if case .marvel(let l)? = last { return .marvel(ComicTrip.pick(after: l.kind, cast: cast, to: place)) }
@@ -30,6 +33,9 @@ enum ComicTransition {
         case .dc:
             if case .dc(let l)? = last { return .dc(DCComicTrip.pick(after: l.kind, cast: cast, to: place)) }
             return .dc(DCComicTrip.pick(after: nil, cast: cast, to: place))
+        case .doctor:
+            if case .doctor(let l)? = last { return .doctor(DoctorTrip.pick(after: l.kind, cast: cast, to: place)) }
+            return .doctor(DoctorTrip.pick(after: nil, cast: cast, to: place))
         }
     }
 }
