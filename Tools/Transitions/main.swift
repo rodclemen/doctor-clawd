@@ -5,7 +5,7 @@ import AVFoundation
 // or, between two DC places, DC's (`DCComicWipe`), or between two Doctor Clawd places, its trips (`DoctorWipe`).
 //   Tools/Transitions/build.sh && build/transitions <out folder> [from place] [to place]
 //   build/transitions build/transitions-dc watchtower gotham     DC's fifteen
-//   build/transitions build/transitions-doctor consoleRoom skarro   Doctor Clawd's five
+//   build/transitions build/transitions-doctor consoleRoom skarro   Doctor Clawd's ten
 
 let args = Array(CommandLine.arguments.dropFirst())
 let outDir = args.first ?? "build/transitions"

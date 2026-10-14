@@ -127,10 +127,10 @@ The scene is set **where the first session's character belongs**: Skarro for the
   <img src="docs/locations-doctor-clawd.png" alt="All 20 Doctor Clawd places" width="760">
 </p>
 
-When the scene moves somewhere new, it goes the Doctor Clawd way: down the time vortex, in a TARDIS dematerialising, in a regeneration's golden flare, in four blinks with a Weeping Angle closer every time, or through a Dalick's eyestalk.
+When the scene moves somewhere new, it travels the way the show does. The TARDIS dematerialises out of one place and into the next, or the trip runs through one of the eras' title sequences: the black-and-white howlaround of 1963, the 1970s slit-scan tunnel of streaking light, the 1980s starfield, the blue and orange time vortex of 2005 with the TARDIS tumbling through it, the explosive vortex of the 2010s, or today's neon one. Each era's comes up more often with its own Doctors and companions on screen. There's a regeneration's golden flare too, and with a Weeping Angle about, the screen might blink four times, the Angle closer each time; with a Dalick about, you might watch through its eyestalk.
 
 <p align="center">
-  <img src="docs/transitions-doctor-clawd.png" alt="The five Doctor Clawd transitions: the time vortex, the TARDIS dematerialising, a regeneration flare, Blink, and the Dalick eyestalk" width="760">
+  <img src="docs/transitions-doctor-clawd.png" alt="The ten Doctor Clawd transitions: dematerialise, howlaround, slit-scan, starfield, time vortex, explosive vortex, neon vortex, regeneration, Blink and the Dalick eyestalk" width="760">
 </p>
 
 ## Screen saver
