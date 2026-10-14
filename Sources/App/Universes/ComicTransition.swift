@@ -22,7 +22,7 @@ enum ComicTransition {
     /// uses plain wipes.
     static func pick(after last: ComicTransition?, cast: [Cast], to place: Location) -> ComicTransition? {
         switch place.universe {
-        case .starWars:
+        case .starWars, .doctor:   // Doctor Clawd: plain wipes until its own trips are in
             return nil
         case .marvel:
             if case .marvel(let l)? = last { return .marvel(ComicTrip.pick(after: l.kind, cast: cast, to: place)) }

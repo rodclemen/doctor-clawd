@@ -4,7 +4,8 @@ import Foundation
 // salt-and-pepper goatee. He's the last hero of every cast (`Universe.hem`), kept out of the regular pools and turning
 // up only now and then (`Universe.hemOdds`). Star Clawds: Laya's white robe and a blaster (and a word for her about
 // buns, `Overlay`). Marvelous Clawds: a purple-and-gold captain with an H and its shield. Detective Clawds: Harlee's
-// jacket, dyed buns and a toy wand. Signature, everywhere: he shakes his fist at you.
+// jacket, dyed buns and a toy wand. Doctor Clawd: a tweed jacket, a red bow tie, a fez (fezzes are cool) and a sonic
+// screwdriver. Signature, everywhere: he shakes his fist at you.
 
 func hemPersona(_ u: Universe) -> Persona {
     switch u {
@@ -16,6 +17,9 @@ func hemPersona(_ u: Universe) -> Persona {
     case .dc:
         return Persona(name: "HEM", weapon: .blaster, shot: .energy(core: C(0xFFF6C8), glow: C(0xFF7AC8)), muzzle: (52, 27),
                        headTop: 21, signature: 2.6, draw: { drawHem($0, $1, .dc) })
+    case .doctor:
+        return Persona(name: "HEM", weapon: .lightning, magic: Magic(core: C(0xE8FFE0), glow: C(0x4ADB5A), jagged: false),
+                       pivot: hemSonicTip, headTop: 15, signature: 2.6, draw: { drawHem($0, $1, .doctor) })
     }
 }
 
@@ -28,6 +32,9 @@ private let wire = C(0xD5DAE2), beard = C(0x2A221C), beardGrey = C(0xA8A8A8)
 private let robe = C(0xF4F4F0), robeShade = C(0xD2D4DA)
 private let capPurple = C(0x5B2D8E), capPurpleDark = C(0x43206A), capGold = C(0xE8B33A)
 private let harleeRed = C(0xC8202A), harleeBlue = C(0x2E5CC9)
+private let tweed = C(0x7A5232), tweedDark = C(0x5A3C24), fezRed = C(0xB8202A), fezDark = C(0x7A1218)
+/// Where the sonic screwdriver's tip is, held out (its beam leaves from there, raised by the pose's `armRaise`).
+private let hemSonicTip = (x: 46.0, y: 30.0)
 
 private func drawHem(_ c: PixelCanvas, _ p: Pose, _ u: Universe) {
     // Signature: the fist goes up by his shoulder and shakes at you while he yells.
@@ -59,6 +66,11 @@ private func drawHem(_ c: PixelCanvas, _ p: Pose, _ u: Universe) {
                 c.rect(lx, top + 6, 2, 1, ink)
             }
         }
+    case .doctor:
+        drawLegs(c, Look(leg: C(0x2A2A32)), step: p.step)
+        if !seatedPose {
+            for (i, lx) in [19, 23, 31, 35].enumerated() { c.rect(lx, p.step >= 0 && i % 2 == p.step ? 41 : 42, 2, 2, C(0x3A2416)) }
+        }
     }
 
     c.oy += p.breathe
@@ -68,6 +80,7 @@ private func drawHem(_ c: PixelCanvas, _ p: Pose, _ u: Universe) {
     case .starWars: top = robe; topShade = robeShade; arm = robe; armRight = robe
     case .marvel: top = capPurple; topShade = capPurpleDark; arm = capPurple; armRight = capPurple
     case .dc: top = white; topShade = C(0xD8D8DC); arm = harleeRed; armRight = harleeBlue
+    case .doctor: top = tweed; topShade = tweedDark; arm = tweed; armRight = tweed
     }
     c.rect(17, 26, 22, 12, clawdOrange); c.rect(38, 26, 1, 12, hemShade)
     c.rect(17, 34, 22, 4, top); c.rect(38, 34, 1, 4, topShade); c.rect(20, 34, 16, 1, topShade)   // the turtleneck's roll
@@ -80,11 +93,15 @@ private func drawHem(_ c: PixelCanvas, _ p: Pose, _ u: Universe) {
         c.pattern(18, 34, ["H.H", "HHH", "H.H"], ["H": capGold])
     case .dc:
         c.rect(17, 34, 3, 4, harleeRed); c.rect(36, 34, 3, 4, harleeBlue); c.rect(17, 37, 22, 1, C(0x2A2A32))
+    case .doctor:   // the jacket open over a shirt, red braces and the bow tie
+        c.rect(24, 34, 8, 4, C(0xE8E2D4)); c.rect(25, 35, 1, 3, fezRed); c.rect(30, 35, 1, 3, fezRed)
+        c.pattern(25, 34, ["RRrRR", "R...R"], ["R": fezRed, "r": fezDark])
     }
     // Arms: hands on hips at rest, the right one forward to fight.
     let forward = !shaking && (!p.resting || p.melee != nil)
     c.rect(14, 33, 3, 3, arm)
-    if !shaking { c.rect(39, forward ? 31 : 33, 3, 3, armRight) }
+    let lift = u == .doctor ? p.armRaise : 0
+    if !shaking { c.rect(39, (forward ? 31 : 33) - lift, 3, 3, armRight) }
     if !forward { c.px(16, 35, clawdOrange); if !shaking { c.px(39, 35, clawdOrange) } }
 
     drawHemHead(c, u)
@@ -93,6 +110,10 @@ private func drawHem(_ c: PixelCanvas, _ p: Pose, _ u: Universe) {
                            "HHHHHHHHHHHHHHHHHHHHHH", "HH..................HH"], ["H": capPurple])
         c.pattern(26, 21, ["H..H", "HHHH", "H..H", "H..H"], ["H": capGold])
         c.pattern(15, 21, ["W.", "WW", ".W"], ["W": white]); c.pattern(39, 21, [".W", "WW", "W."], ["W": white])
+    }
+    if u == .doctor {   // the fez, a little to the back, its tassel hanging
+        c.pattern(22, 15, ["...FFFFFF..", "...FFFFFFK.", "..FFFFFFFFK", "..FFFFFFFF.", ".FFFFFFFFFF", ".ffffffffff"],
+                  ["F": fezRed, "f": fezDark, "K": ink])
     }
     drawHemFace(c, yelling: shaking && frame == 1)
     if u == .dc { c.pattern(36, 32, [".R.R", "RRRR", ".RR."], ["R": C(0xE8323A)]) }   // the little heart on his cheek
@@ -126,6 +147,19 @@ private func drawHem(_ c: PixelCanvas, _ p: Pose, _ u: Universe) {
         }
     case .dc:
         drawWand(c, raised: p.fire != nil || p.ready || p.cheering, gunY: p.gunY, t: p.t)
+    case .doctor:
+        drawHemSonic(c, out: forward || p.zap != nil, lift: lift)
+    }
+}
+
+/// His sonic screwdriver: held up in his fist at rest; pointed out, its green tip at `hemSonicTip` (`lift` higher).
+private func drawHemSonic(_ c: PixelCanvas, out: Bool, lift: Int) {
+    let grip = C(0x3A3A44), steel = C(0xC8CCD4), tip = C(0x7AF08A)
+    if out {
+        let y = 32 - lift
+        c.rect(42, y, 2, 1, grip); c.rect(44, y - 1, 2, 1, steel); c.px(46, y - 2, tip)
+    } else {
+        c.rect(40, 29, 1, 4, grip); c.px(40, 28, steel); c.px(40, 27, tip.alpha(0.7))
     }
 }
 

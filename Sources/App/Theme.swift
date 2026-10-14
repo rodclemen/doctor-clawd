@@ -39,6 +39,7 @@ struct Theme {
         case .starWars: return starWarsTheme
         case .marvel: return marvelTheme
         case .dc: return dcTheme
+        case .doctor: return doctorTheme
         }
     }
 }

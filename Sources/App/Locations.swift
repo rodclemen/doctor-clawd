@@ -67,6 +67,7 @@ struct Place {
 
 /// Every place in every universe, from the universes' scene files.
 let places: [Location: Place] = marvelPlaces.merging(starWarsPlaces) { a, _ in a }.merging(dcPlaces) { a, _ in a }
+    .merging(doctorPlaces) { a, _ in a }
 
 
 /// The wipes between places, shared by the window and the screen saver: what's left of the old

@@ -4,6 +4,9 @@ Clawd Clash brings three apps together as its three universes: Clawd Wars became
 
 ## Unreleased
 
+### Added
+- **A fourth universe, Doctor Clawd (in progress).** Settings → Universe → Doctor Clawd, and in the screen saver's Options. So far: Doctor Ten with his sonic screwdriver, a Dalick that glides, shouts and shrugs off bullets, HEM in a fez and bow tie, the TARDIS console room with its time rotor pumping, and a police box in the menu bar.
+
 ### Changed
 - **The README goes by the universes' names throughout**, its pictures included (`docs/roster-star-clawds.png` and so on, as `Tools/RenderDocs` now names them).
 - **The source folders go by the universes' names too**: `Sources/App/Universes/StarClawds`, `MarvelousClawds` and `DetectiveClawds`, with file names to match. `Tools/Preview` takes characters and places by the names shown on screen (`build/preview cast out.png "Darth Vapor"`) and universes by theirs.

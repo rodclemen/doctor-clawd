@@ -421,6 +421,9 @@ func windowSpec(_ u: Universe, needsAt: Double = 99, at override: Location? = ni
                               "You: “make the shield bounce twice”", "You: “make the hero section pop”")
         case .dc: return (.gotham, .hero(DCHero.batman), .villain(DCVillain.joker), .hero(DCHero.robin), .hero(DCHero.nightwing),
                           .villain(DCVillain.jokerGoon), "You: “make the clawdarang come back”", "You: “put a smile on that error page”")
+        case .doctor: return (.consoleRoom, .hero(DoctorHero.doctorTen), .villain(DoctorVillain.dalick), .hero(DoctorHero.doctorTen),
+                              .hero(DoctorHero.doctorTen), .villain(DoctorVillain.dalick), "You: “make the rotor pump faster”",
+                              "You: “exterminate the dead code”")
         }
     }()
     let duel = fightIsCloseQuarters(claude.weapon, other.weapon)
@@ -738,6 +741,7 @@ func brawl(_ ctx: CGContext, _ u: Universe, local: Double, t: Double, drop: Bool
         case .starWars: return (.villain(SWVillain.vader), .hero(SWHero.luke), .hero(SWHero.han), .villain(SWVillain.trooper))
         case .marvel: return (.hero(MarvelHero.captainAmerica), .villain(MarvelVillain.redSkull), .hero(MarvelHero.spiderMan), .villain(MarvelVillain.greenGoblin))
         case .dc: return (.hero(DCHero.batman), .villain(DCVillain.joker), .hero(DCHero.greenArrow), .villain(DCVillain.captainCold))
+        case .doctor: return (.hero(DoctorHero.doctorTen), .villain(DoctorVillain.dalick), .hero(DoctorHero.doctorTen), .villain(DoctorVillain.dalick))
         }
     }()
     let (ra, rb) = fightRoles(a.weapon, b.weapon), close = fightIsCloseQuarters(a.weapon, b.weapon)
@@ -758,6 +762,7 @@ func brawl(_ ctx: CGContext, _ u: Universe, local: Double, t: Double, drop: Bool
         case .starWars: return ("One app. Three universes.", "Star Clawds: laser swords, blasters, 81 characters in 22 places.")
         case .marvel: return ("Switch to Marvelous Clawds in Settings.", "Shields, hammers and webs: 193 characters in 43 places.")
         case .dc: return ("Or pick Detective Clawds.", "Capes, power rings and one very serious bat: 207 characters in 43 places.")
+        case .doctor: return ("Or step into Doctor Clawd.", "Sonic screwdrivers, a blue box and a lot of shouting about extermination.")
         }
     }()
     caption(line, ctx, local: local, start: drop ? 0.3 : 0.15, y: 900)
