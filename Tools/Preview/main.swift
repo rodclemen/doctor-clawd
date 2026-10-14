@@ -254,7 +254,7 @@ case "place":
 case "rides":
     let cellW = CGFloat(Ride.width) * scale + 12, cellH = CGFloat(Ride.height) * scale + 30
     let states: [(String, Double, Bool, Bool)] = [("landed", 0, false, true), ("ramp down", 1, false, true), ("flying", 0, true, false)]
-    let rides: [Ride] = [.falcon, .quinjet, .milano, .javelin, .batwing]
+    let rides: [Ride] = [.falcon, .quinjet, .milano, .javelin, .batwing, .tardis]
     save(sheet(Int(cellW * 3), Int(cellH * CGFloat(rides.count))) { ctx in
         for (i, ride) in rides.enumerated() {
             for (j, st) in states.enumerated() {

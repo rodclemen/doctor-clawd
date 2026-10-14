@@ -2,9 +2,10 @@ import AppKit
 import AVFoundation
 
 // The comic-book transitions between places, rendered as short clips and a sheet of key frames: Marvel's (`ComicWipe`)
-// or, between two DC places, DC's (`DCComicWipe`).
+// or, between two DC places, DC's (`DCComicWipe`), or between two Doctor Clawd places, its trips (`DoctorWipe`).
 //   Tools/Transitions/build.sh && build/transitions <out folder> [from place] [to place]
 //   build/transitions build/transitions-dc watchtower gotham     DC's fifteen
+//   build/transitions build/transitions-doctor consoleRoom skarro   Doctor Clawd's five
 
 let args = Array(CommandLine.arguments.dropFirst())
 let outDir = args.first ?? "build/transitions"
@@ -51,6 +52,14 @@ func shownDC(_ kind: DCComicWipe) -> Transition {
     }
 }
 
+/// Doctor Clawd's trips (`DoctorTrip`), every one of them.
+func shownDoctor(_ kind: DoctorWipe) -> Transition {
+    let trip = DoctorTrip(kind: kind)
+    return Transition(key: "\(kind.rawValue + 1)-\(kind)", title: "\(kind)", duration: kind.duration) { ctx, old, new, k in
+        trip.draw(ctx, old: old, new: new, k: k, in: full)
+    }
+}
+
 let marvel: [Transition] = [
     shown(.halftone, "1-halftone", "Halftone dots"),
     shown(.burst, "2-burst-kapow", "KAPOW! (nobody in particular)"),
@@ -68,7 +77,8 @@ let marvel: [Transition] = [
 
 /// ONLY="1,4,12" renders just those (by number or name).
 let only = ProcessInfo.processInfo.environment["ONLY"]?.split(separator: ",").map(String.init)
-let transitions: [Transition] = (to.universe == .dc ? DCComicWipe.allCases.map(shownDC) : marvel).filter { tr in
+let transitions: [Transition] = (to.universe == .dc ? DCComicWipe.allCases.map(shownDC)
+                                  : to.universe == .doctor ? DoctorWipe.allCases.map(shownDoctor) : marvel).filter { tr in
     only.map { $0.contains { tr.key.hasPrefix("\($0)-") || tr.key.hasSuffix("-\($0)") } } ?? true
 }
 

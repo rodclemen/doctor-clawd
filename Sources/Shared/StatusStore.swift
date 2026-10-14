@@ -22,6 +22,7 @@ struct SessionRecord: Codable {
     var prompts: Int?      // prompts this session
     var assistant: String? // "claude", "codex", "qwen", "gemini", "copilot" (nil = claude, from before Codex support)
     var client: String?    // where Claude Code runs: CLAUDE_CODE_ENTRYPOINT ("cli", "claude-desktop", "claude-vscode"…)
+    var regenerated: Double? // a Doctor's last regeneration (its context compacted), for the golden flare
 }
 
 struct AgentRecord: Codable {
@@ -309,6 +310,18 @@ enum StatusStore {
                 let type = json["notification_type"] as? String ?? ""
                 let message = (json["message"] as? String ?? "").lowercased()
                 if type == "permission_prompt" || message.contains("permission") { set("waiting") }
+            case "PreCompact":
+                // A Doctor whose context is compacted regenerates: same session, the next Doctor's face (one nobody
+                // else is leading with), in a golden flare the overlay plays.
+                guard agentId == nil, let leader = s.sessions[session]?.leader else { break }
+                let order = Universe.of(leader).regenerations
+                guard let i = order.firstIndex(of: leader) else { break }
+                let used = Set(s.sessions.filter { $0.key != session }.values.compactMap(\.leader))
+                let next = (1..<order.count).map { order[(i + $0) % order.count] }.first { !used.contains($0) }
+                if let next {
+                    s.sessions[session]?.leader = next
+                    s.sessions[session]?.regenerated = now
+                }
             case "Stop", "StopFailure", "Interrupt":
                 set("idle")
                 s.sessions[session]?.lastTool = nil

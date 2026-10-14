@@ -140,7 +140,11 @@ let doctorTheme = Theme(
                  : .doctorHome(of: DoctorHero(rawValue: c.index) ?? .doctorTen)
     },
     nemeses: doctorNemeses.map { (.hero($0.0), .villain($0.1)) },
-    ride: { _ in nil },
+    ride: { c in
+        // The TARDIS materialises for the Doctors and their companions (all the heroes but HEM).
+        guard c.universe == .doctor, !c.isDark, let h = DoctorHero(rawValue: c.index), h != .hem else { return nil }
+        return .tardis
+    },
     menuIcon: drawPoliceBoxIcon,
     legend: .hero(.doctorTen))
 

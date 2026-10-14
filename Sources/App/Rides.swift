@@ -2,7 +2,7 @@ import Foundation
 
 // The ships that come to pick someone up when their agent is done (`Cast.ride`): the Millennium Falcon for Han, the
 // Quinjet for the Avengers, the Milano for the Guardians, the Javelin for the Justice League, the Batwing for the
-// Bat-family. Drawn nose to the right on a `Ride.width`×`Ride.height` canvas, sitting on its bottom row when landed;
+// Bat-family, the TARDIS for the Doctors and their companions. Drawn nose to the right on a `Ride.width`×`Ride.height` canvas, sitting on its bottom row when landed;
 // the boarding ramp comes down to the left of centre, its foot about 14 px left of the middle.
 
 extension Ride {
@@ -17,6 +17,7 @@ func drawRide(_ c: PixelCanvas, _ ride: Ride, ramp: Double, engines: Bool, gear:
     case .milano: drawMilano(c, ramp: ramp, engines: engines, gear: gear)
     case .javelin: drawJavelin(c, ramp: ramp, engines: engines, gear: gear)
     case .batwing: drawBatwing(c, ramp: ramp, engines: engines, gear: gear)
+    case .tardis: drawTardis(c, door: ramp, lamp: engines)
     }
 }
 
@@ -307,4 +308,46 @@ private func drawBatwing(_ c: PixelCanvas, ramp: Double, engines: Bool, gear: Bo
     } else {
         c.rect(3, 17, 1, 4, dark)
     }
+}
+
+/// The TARDIS: a blue police box standing on the bottom row, left of centre so whoever boards walks up to its doors
+/// (it never flies in: the overlay fades it in and out where it stands, `Ride.materialises`). The lamp on the roof,
+/// the POLICE BOX sign, the frosted windows and the panelled doors; `door` 0…1 swings the right-hand door open on the
+/// lit interior, `lamp` lights the roof lamp.
+private func drawTardis(_ c: PixelCanvas, door: Double, lamp: Bool) {
+    let blue = C(0x1C3F94), dark = C(0x15306E), edge = C(0x2E58B8), sign = C(0x101820), glass = C(0xE8F0FF)
+    let x0 = 13, w = 18, top = 3
+    // The roof stack and the lamp.
+    c.rect(x0 + 6, top - 1, 6, 1, blue)
+    c.rect(x0 + 8, top - 3, 2, 2, lamp ? C(0xFFF6C8) : C(0xC8D0E0))
+    if lamp { c.rect(x0 + 7, top - 4, 4, 1, C(0xFFF6C8, 0.45)); c.rect(x0 + 7, top - 2, 1, 1, C(0xFFF6C8, 0.4)); c.rect(x0 + 10, top - 2, 1, 1, C(0xFFF6C8, 0.4)) }
+    c.rect(x0 - 1, top, w + 2, 2, blue); c.rect(x0 - 1, top, w + 2, 1, edge)
+    // The body, its corner posts and the sign.
+    c.rect(x0, top + 2, w, 29 - top - 4, blue)
+    c.rect(x0, top + 2, 2, 29 - top - 4, edge); c.rect(x0 + w - 2, top + 2, 2, 29 - top - 4, dark)
+    c.rect(x0 + 1, top + 3, w - 2, 2, sign)
+    for x in stride(from: x0 + 2, to: x0 + w - 2, by: 2) { c.px(x, top + 3, glass.alpha(0.85)) }
+    // The doors: windows over three panels each, split down the middle.
+    let doorY = top + 6, doorH = 29 - doorY - 2
+    for side in 0..<2 {
+        let dx = x0 + 2 + side * 7
+        c.rect(dx + 1, doorY + 1, 5, 3, glass)
+        c.rect(dx + 3, doorY + 1, 1, 3, blue); c.rect(dx + 1, doorY + 2, 5, 1, blue)
+        for k in 0..<3 { c.rect(dx + 1, doorY + 5 + k * 5, 5, 4, dark) }
+    }
+    c.rect(x0 + 8, doorY, 2, doorH, dark)
+    if door > 0 {
+        // The right-hand door swings in on the warm light inside.
+        let open = Int((Double(7) * door).rounded())
+        c.rect(x0 + 9, doorY, 7, doorH, C(0xFFE8A8, 0.9))
+        c.rect(x0 + 9, doorY, 7, 2, C(0xFFF6D8))
+        c.rect(x0 + 16 - max(1, 7 - open), doorY, max(1, 7 - open), doorH, blue)
+    }
+    // The base.
+    c.rect(x0 - 1, 27, w + 2, 2, blue); c.rect(x0 - 1, 28, w + 2, 1, dark)
+}
+
+extension Ride {
+    /// Fades in and out where it stands instead of flying in and away.
+    var materialises: Bool { self == .tardis }
 }

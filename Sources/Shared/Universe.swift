@@ -52,6 +52,12 @@ enum Universe: Int, CaseIterable, Codable {
     /// Characters that never lead two sessions back to back (Vader and Kylo), as global ids.
     var rivals: Set<Int> { self == .starWars ? [0, 1] : [] }
 
+    /// Doctor Clawd: the Doctors in order (One … Fifteen), as global ids. When a session's context is compacted, its
+    /// Doctor regenerates into the next one (`StatusStore`'s PreCompact); nobody else changes.
+    var regenerations: [Int] {
+        self == .doctor ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10, 11, 12, 13, 14].map { base + StatusStore.heroBase + $0 } : []
+    }
+
     var darkCast: [Int] { (0..<villainCount).map { base + $0 } }
     var lightCast: [Int] { (0..<heroCount - 1).map { base + StatusStore.heroBase + $0 } }   // all but HEM
 

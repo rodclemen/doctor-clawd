@@ -1,6 +1,6 @@
 import Foundation
 
-// HEM: the one character in all three universes, with the same face in each: big buns, wire glasses, a scowl and a
+// HEM: the one character in all four universes, with the same face in each: big buns, wire glasses, a scowl and a
 // salt-and-pepper goatee. He's the last hero of every cast (`Universe.hem`), kept out of the regular pools and turning
 // up only now and then (`Universe.hemOdds`). Star Clawds: Laya's white robe and a blaster (and a word for her about
 // buns, `Overlay`). Marvelous Clawds: a purple-and-gold captain with an H and its shield. Detective Clawds: Harlee's
