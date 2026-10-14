@@ -1,0 +1,15 @@
+# Build output (build.sh)
+build/
+
+# Personal editor settings
+.vscode/
+
+# macOS
+.DS_Store
+
+# Agent worktrees
+.claude/
+
+# Rendered promo videos and storyboards (large, regenerable). The 720p copies
+# in promo/720p/ are uploaded to GitHub by hand for the README
+promo/
