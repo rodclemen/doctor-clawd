@@ -17,7 +17,9 @@
   <a href="https://github.com/rodclemen/clawd-clash"><img src="https://img.shields.io/badge/part%20of-Clawd%20Clash-8A2BE2" alt="Part of Clawd Clash"></a>
 </p>
 
-<!-- The trailer goes here once it's rendered (REEL=doctor). -->
+https://github.com/user-attachments/assets/0d2b3baf-7cc7-4742-a2e5-7c2cea5372b7
+
+<p align="center"><sub>🔊 <b>Click the speaker in the player for sound</b>: GitHub starts videos muted.</sub></p>
 
 > **Doctor Clawd is a universe of [Clawd Clash](https://github.com/rodclemen/clawd-clash).** Same crew, same fights, three more universes to switch to. This page shows off the Doctor Clawd universe; see [Get it](#get-it) to install.
 
