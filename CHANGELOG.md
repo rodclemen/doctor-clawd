@@ -17,6 +17,7 @@ Clawd Clash brings three apps together as its three universes: Clawd Wars became
 
 ### Changed
 - **Test runs leave the hook's universe alone.** A Playground, demo, chaos or `CLAWD_SHOT` run no longer writes its universe to the status file at launch, so taking screenshots in another universe doesn't change who the installed app casts new sessions as. The Playground's sample prompts are Doctor Clawd's own in Doctor Clawd.
+- **The TARDIS is 25% bigger** (22×35 pixels instead of 18×28, on a canvas of its own), so it stands a head taller than whoever boards it, and they walk up to its open door instead of the spot where a ship's ramp would be.
 - **Blink's last Angle is smaller**, so it no longer runs off the bottom of the screen.
 - **The Doctor Clawd README points at this repo.** It said the code was being built on Clawd Clash's `doctor_who` branch; the work now happens here, on a copy of Clawd Clash with Doctor Clawd as its fourth universe.
 - **The README goes by the universes' names throughout**, its pictures included (`docs/roster-star-clawds.png` and so on, as `Tools/RenderDocs` now names them).

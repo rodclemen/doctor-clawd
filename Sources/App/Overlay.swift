@@ -1118,7 +1118,8 @@ final class OverlayController: NSObject, NSMenuDelegate, NSApplicationDelegate, 
                 // ramp up, lift off and away (0.72–1).
                 let p = min(1, (now - left) / falconExit)
                 let cs0 = Self.companionScale * z
-                let rampFoot = exit.landX - exit.dir * 14 * cs0
+                // The ships' ramps come down 14 px left of centre; the TARDIS's open door is 6 px left of it.
+                let rampFoot = exit.landX - exit.dir * (actor.cast.ride?.materialises == true ? 6 : 14) * cs0
                 if p >= 0.36 && p < 0.62 {
                     let k = (p - 0.36) / 0.26
                     actor.x = exit.startX + (rampFoot - exit.startX) * CGFloat(k)
@@ -1464,10 +1465,10 @@ final class OverlayController: NSObject, NSMenuDelegate, NSApplicationDelegate, 
             if p < 0.3 { alpha = pulse(p / 0.3); engines = Int(p * 40) % 2 == 0 }
             else if p < 0.72 { ramp = p < 0.36 ? (p - 0.3) / 0.06 : (p < 0.64 ? 1 : max(0, 1 - (p - 0.64) / 0.06)) }
             else { alpha = pulse(1 - (p - 0.72) / 0.28); engines = Int(p * 40) % 2 == 0 }
-            let c = PixelCanvas(Ride.width, Ride.height)
+            let c = PixelCanvas(Ride.width, ride.canvasHeight)
             drawRide(c, ride, ramp: ramp, engines: engines, gear: true)
             c.addOutline(C(0xFFFFFF, 0.92))
-            let w = CGFloat(Ride.width) * s, h = CGFloat(Ride.height) * s
+            let w = CGFloat(Ride.width) * s, h = CGFloat(ride.canvasHeight) * s
             return DrawItem(image: c.makeImage(), rect: NSRect(x: (x - w / 2).rounded(), y: (feet - 1 * s).rounded(), width: w, height: h),
                             mirrored: exit.dir < 0, alpha: alpha)
         }

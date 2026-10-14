@@ -108,10 +108,10 @@ func at(_ c: PixelCanvas, _ ctx: CGContext, _ o: CGPoint, bodyX: Double, left: B
 
 // The TARDIS: it wheezes in beside Rose, the door opens, she steps in, and it fades away. A Dalick looks on.
 func tardisBox(_ ctx: CGContext, _ o: CGPoint, x: Double, door: Double, lamp: Bool, alpha: CGFloat) {
-    let c = PixelCanvas(Ride.width, Ride.height)
+    let c = PixelCanvas(Ride.width, Ride.tardis.canvasHeight)
     drawRide(c, .tardis, ramp: door, engines: lamp, gear: true)
     c.addOutline(C(0xFFFFFF, 0.92))
-    put(c, ctx, x: x - Double(Ride.width) / 2, y: Double(ph - 8 - 28), unit: unit, frameH: ph, origin: o, alpha: alpha)
+    put(c, ctx, x: x - Double(Ride.width) / 2, y: Double(ph - 8 - Ride.tardis.canvasHeight + 1), unit: unit, frameH: ph, origin: o, alpha: alpha)
 }
 let rose = Cast.hero(DoctorHero.rose), dalick = Cast.villain(DoctorVillain.dalick)
 let roseX = 22.0, boxX = 66.0
@@ -130,7 +130,7 @@ strip(.powellEstate, [
     },
     Panel(caption: "3 · Rose Tiler steps inside") { ctx, o, sy in
         tardisBox(ctx, o, x: boxX, door: 1, lamp: false, alpha: 1)
-        at(sprite(rose, t: 0.06, walking: true), ctx, o, bodyX: 50, alpha: 0.75)
+        at(sprite(rose, t: 0.06, walking: true), ctx, o, bodyX: 60, alpha: 0.75)
         at(sprite(dalick, left: true), ctx, o, bodyX: 124, left: true)
     },
     Panel(caption: "4 · and it's gone") { ctx, o, _ in
