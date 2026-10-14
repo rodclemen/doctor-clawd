@@ -1,36 +1,36 @@
-# Plan: a fourth universe, Time Clawds (Doctor Who parody)
+# Plan: a fourth universe, Doctor Clawd (Doctor Who parody)
 
 ## Context
 
 Clawd Clash has three parody universes: Star Clawds, Marvelous Clawds and Detective Clawds. This plan adds a fourth, a Doctor Who parody, as a full ensemble on the `doctor_who` branch. "Full ensemble" here means every character, place, move and transition carries the show. Nothing is added just to grow the count.
 
-- **Working name: Time Clawds** (a pun on Time Lords, plural like the others). Inside the code it is `case time = 3` with key `"time"`, in the folder `Sources/App/Universes/TimeClawds/`, with file prefix `Time…`. The code avoids the franchise name, as the last commit did for the other universes.
+- **Name: Doctor Clawd.** Inside the code it is `case doctor = 3` with key `"doctor"`, in the folder `Sources/App/Universes/DoctorClawd/`, with file prefix `Doctor…`. The code avoids the franchise name, as the last commit did for the other universes.
 - **Naming style** follows the other universes: light puns on the on-screen names (Darth Vapor, Thorr, Superb-Man). Generic titles like "The Doctor" and "The Master" are numbered or given a nickname. Actors' names are never used.
 - **Size:** about **98 characters** (56 heroes including HEM, 42 villains including 3 agent-only) and **20 places**. That sits between Star Clawds (82) and the comic universes (194/208).
 
 ## How a universe plugs in (from exploring the code)
 
-**New code: `Sources/App/Universes/TimeClawds/`**
-- `TimeRoster.swift`:
-  - `enum TimeVillain` and `enum TimeHero`, append-only, with `hem` as the last hero.
-  - The persona dictionaries, with `.merging([.hem: hemPersona(.time)])`.
-  - `Location.timeHome(of:)`, the `timeNemeses`, the ride closure and `let timeTheme = Theme(...)`.
-- Character art goes in `Art/TimeHeroes1…N.swift` and `Art/TimeVillains1…N.swift`, about 8–10 personas per file, in the same pattern as `StarClawdsHeroes1.swift`.
-- Places go in `Places/TimeScenes1…N.swift` as `let timePlacesN: [Location: Place]`, plus `static let` keys. Keys must be unique across universes, for example `skarro` and `gallifray`.
-- `TimeIcon.swift` holds the menu bar icon, a 28×26 police box in colour and mono.
-- `TimeWipes.swift` holds the place-to-place transitions (see below).
+**New code: `Sources/App/Universes/DoctorClawd/`**
+- `DoctorRoster.swift`:
+  - `enum DoctorVillain` and `enum DoctorHero`, append-only, with `hem` as the last hero.
+  - The persona dictionaries, with `.merging([.hem: hemPersona(.doctor)])`.
+  - `Location.doctorHome(of:)`, the `doctorNemeses`, the ride closure and `let doctorTheme = Theme(...)`.
+- Character art goes in `Art/DoctorHeroes1…N.swift` and `Art/DoctorVillains1…N.swift`, about 8–10 personas per file, in the same pattern as `StarClawdsHeroes1.swift`.
+- Places go in `Places/DoctorScenes1…N.swift` as `let doctorPlacesN: [Location: Place]`, plus `static let` keys. Keys must be unique across universes, for example `skarro` and `gallifray`.
+- `DoctorIcon.swift` holds the menu bar icon, a 28×26 police box in colour and mono.
+- `DoctorWipes.swift` holds the place-to-place transitions (see below).
 
 **Wiring into existing code.** `build.sh` and the tools already pick up `Universes/**`.
 - **`Sources/Shared/Universe.swift`:** the new case, plus `key`, `title`, `villainCount`, `heroCount` and `agentOnly`. `claudeSide` stays the default, so Claude's sessions are heroes, i.e. Doctors and companions.
 - **`Sources/Shared/Universe.swift`, rivals:** `rivals` pairs the Doctor and the Master like Han and Greedo, so they face off first when both are on stage.
 - **`Theme.swift`:** a `Theme.of` case, plus `Ride.tardis`.
-- **`Locations.swift:69`:** merge `timePlaces`.
-- **`Universes/ComicTransition.swift`:** a `.time(TimeTrip)` case in `duration`, `draw` and `pick`.
+- **`Locations.swift:69`:** merge `doctorPlaces`.
+- **`Universes/ComicTransition.swift`:** a `.doctor(DoctorTrip)` case in `duration`, `draw` and `pick`.
 - **`Universes/Hem.swift`:** HEM's costume in every switch: a fez, a bow tie, and a sonic screwdriver as his weapon.
 - **`Rides.swift`:** `drawTardis`.
-- **`Sources/Saver/SaverView.swift:82, 200-205`:** add `"time"` to the Options choices and to the switch. This list is easy to miss: the build won't complain if it's left out.
-- **`Tools/Preview/main.swift`:** add batches `timeHeroes1…` and the enum lookups. Lookups by on-screen name already work.
-- **`Tools/Transitions/main.swift:71`:** add the time branch.
+- **`Sources/Saver/SaverView.swift:82, 200-205`:** add `"doctor"` to the Options choices and to the switch. This list is easy to miss: the build won't complain if it's left out.
+- **`Tools/Preview/main.swift`:** add batches `doctorHeroes1…` and the enum lookups. Lookups by on-screen name already work.
+- **`Tools/Transitions/main.swift:71`:** add the doctor branch.
 - **`Pose.swift:77`, `Drills.swift:53/142`, `Habits.swift:119`, `Overlay.swift:1421`:** these are universe-specific `if`s. Check each one and decide whether the new universe should join it.
 
 ## Cast
@@ -227,7 +227,7 @@ Each character gets a home among these, for example Daleks on Skaro, Cybermen on
 ## Mechanics that make it its own universe
 
 1. **TARDIS (`Ride.tardis`).** Flyers' sorties and arrivals use a materialising box: it fades in and out with a pulsing lamp. Doctors and companions ride it.
-2. **Transitions (`TimeTrip`, 5).** Like the DC trips, each is weighted by who is on screen:
+2. **Transitions (`DoctorTrip`, 5).** Like the DC trips, each is weighted by who is on screen:
    - **Time vortex tunnel:** the classic title sequence.
    - **TARDIS dematerialise:** the old scene fades out with the box.
    - **Regeneration flare:** golden, picked when a Doctor is on screen.
@@ -258,8 +258,8 @@ Each phase builds, is checked with Preview sheets, and is shown to you before th
    - Add a column to the README universe table and the roster and location sheets (`Tools/RenderDocs`: a desktop lineup and a social preview).
    - The four-panel app icon (`Tools/MakeIcon`), `Tools/MakeSocial`, and `llms.txt` ("three" becomes "four" in several places).
    - A `CHANGELOG.md` entry in each phase.
-   - A trailer, `REEL=time`, in `Tools/RenderPromo`.
-   - **Needs your OK first, since it's public:** a `time-clawds` showcase repo and a `time-clawds` cask in `release.sh` (`write_cask` plus the `others` list).
+   - A trailer, `REEL=doctor`, in `Tools/RenderPromo`.
+   - **Needs your OK first, since it's public:** the `doctor-clawd` showcase repo (made private on 2026-10-14, holding this plan) goes public, and a `doctor-clawd` cask is added in `release.sh` (`write_cask` plus the `others` list).
 
 Ids are append-only, so the enum order is the order characters are added, and phases never renumber.
 
@@ -270,8 +270,8 @@ Ids are append-only, so the enum order is the order characters are added, and ph
   - `build/preview cast out.png "Doctor Ten"` shows every pose.
   - `build/preview fight out.png "Doctor Ten" "Dalick"`.
   - `build/preview drills …`.
-  - `build/preview place out.png "Time Clawds"` shows all the places.
+  - `build/preview place out.png "Doctor Clawd"` shows all the places.
 - **Sheets:** check them visually, one batch per Art file.
 - **Transitions:** `Tools/Transitions` renders the frames.
-- **In the app:** Settings → Universe → Time Clawds. Check that a new Claude session is cast as a Doctor or companion, that a subagent can be a villain or agent-only character, that the screen saver's Options include it, and that Random cycles through all four.
+- **In the app:** Settings → Universe → Doctor Clawd. Check that a new Claude session is cast as a Doctor or companion, that a subagent can be a villain or agent-only character, that the screen saver's Options include it, and that Random cycles through all four.
 - **Regeneration:** run `/compact` in a Claude session and watch the flare and the next Doctor.
