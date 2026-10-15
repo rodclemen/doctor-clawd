@@ -2,9 +2,9 @@
 
 The changes you'd notice in the Doctor Clawd universe, newest first. The full, detailed history (every fix, every version) lives in [Clawd Clash](https://github.com/rodclemen/clawd-clash).
 
-## Coming in the next Clawd Clash release
+## Clawd Clash 3.1.0 (2026-10-15)
 
-- **A fourth universe.** Doctor Clawd joins Star Clawds, Marvelous Clawds and Detective Clawds: pick it in **Settings → Universe**, or in the screen saver's Options.
+- **A new universe.** Doctor Clawd joins Star Clawds, Marvelous Clawds and Detective Clawds: pick it in **Settings → Universe**, or in the screen saver's Options.
 - **98 characters.** All fifteen numbered Doctors plus the War and Fugitive Doctors, each with their own sonic screwdriver (or cricket ball, umbrella or Venusian aikido); 38 companions and allies from Susan Foreclaw to Belinda Chandler; K-Canine on his base; HEM in a fez. Facing them, 42 villains: the Master in five faces, Missy, Davross, the Dalick Emperor, Cyberpersons, Sontarons, Silents, Zygones, Slitheem, the Candyman, and Adipoze, Cybermites and Toclafayne as agents.
 - **20 places**, from the TARDIS console room, Gallifray and Skarro to Totter's Yard, the Library, Starship UK, Pompeii, the café in Arles and Sanctuary Base 6, each with something moving in it.
 - **The TARDIS.** Doctors and companions don't fly off: a police box wheezes into view where they stand, they walk in through the door, and it fades away.

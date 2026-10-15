@@ -4,6 +4,6 @@
 
 - Doctor Clawd is the time-travel parody universe of Clawd Clash: 42 villains and 56 heroes (every numbered Doctor plus the War and Fugitive Doctors, companions from Susan Foreclaw to Belinda Chandler, K-Canine, the Master, Missy, Davross, Dalicks, Cyberpersons, Sontarons, the Weeping Angle and the rest) and 20 places (the TARDIS console room, Gallifray, Skarro, Totter's Yard, the Library, Pompeii, Sanctuary Base 6 and more).
 - Set pieces: the TARDIS materialises to pick people up; ten transitions built on the show's title sequences; the Weeping Angle only moves while nobody faces it; a Doctor regenerates when their Claude Code session compacts its context.
-- Install: Doctor Clawd ships with Clawd Clash from its next release (`brew tap rodclemen/tap && brew install --cask clawd-clash`, then Settings → Universe → Doctor Clawd).
+- Install: Doctor Clawd ships with Clawd Clash 3.1.0 and later (`brew tap rodclemen/tap && brew install --cask clawd-clash`, then Settings → Universe → Doctor Clawd).
 - The app, its source, docs and full history: https://github.com/rodclemen/clawd-clash
 - The other universes: Star Clawds, Marvelous Clawds, Detective Clawds and The Clawd Files, and Clawd Royale, which puts them all in one scene.

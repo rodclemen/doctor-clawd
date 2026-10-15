@@ -153,7 +153,7 @@ The window can show the same view, and **Random** location moves the window some
 
 Doctor Clawd is part of **[Clawd Clash](https://github.com/rodclemen/clawd-clash)**, one app with multiple universes. It needs macOS 13+ and at least one of Claude Code, Codex, Qwen Code, Gemini CLI or GitHub Copilot CLI.
 
-Doctor Clawd isn't released yet. When it is, it comes with the next Clawd Clash release:
+It comes with Clawd Clash 3.1.0 and later. With Homebrew:
 
 ```sh
 brew tap rodclemen/tap
@@ -161,7 +161,7 @@ brew trust rodclemen/tap      # newer Homebrew asks you to trust a third-party t
 brew install --cask clawd-clash
 ```
 
-Then pick **Settings → Universe → Doctor Clawd**. Or download the zip from [Clawd Clash's releases](https://github.com/rodclemen/clawd-clash/releases), unzip it and drag **Clawd Clash** to Applications.
+Then pick **Settings → Universe → Doctor Clawd** (already have Clawd Clash? `brew upgrade --cask clawd-clash`). Or download the zip from [Clawd Clash's releases](https://github.com/rodclemen/clawd-clash/releases), unzip it and drag **Clawd Clash** to Applications.
 
 Everything else (how it works, the settings, uninstalling, the source and contributing) lives in the **[Clawd Clash repo](https://github.com/rodclemen/clawd-clash)**.
 
