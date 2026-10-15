@@ -21,7 +21,7 @@ https://github.com/user-attachments/assets/0d2b3baf-7cc7-4742-a2e5-7c2cea5372b7
 
 <p align="center"><sub>🔊 <b>Click the speaker in the player for sound</b>: GitHub starts videos muted. Full 1080p version: <a href="promo/doctor-clawd-promo.mp4">promo/doctor-clawd-promo.mp4</a></sub></p>
 
-> **Doctor Clawd is a universe of [Clawd Clash](https://github.com/rodclemen/clawd-clash).** Same crew, same fights, three more universes to switch to. This page shows off the Doctor Clawd universe; see [Get it](#get-it) to install.
+> **Doctor Clawd is a universe of [Clawd Clash](https://github.com/rodclemen/clawd-clash).** Same crew, same fights, more universes to switch to. This page shows off the Doctor Clawd universe; see [Get it](#get-it) to install.
 
 <p align="center">
   <img src="docs/desktop-doctor-clawd.png" alt="Two Claudes and four agents fighting across the bottom of the screen: Davross zapping Doctor Ten, Madame Vasta deflecting a Dalick's shots">
@@ -37,7 +37,7 @@ https://github.com/user-attachments/assets/0d2b3baf-7cc7-4742-a2e5-7c2cea5372b7
 - [Window mode](#window-mode)
 - [Screen saver](#screen-saver)
 - [Get it](#get-it)
-- [Three more universes](#three-more-universes)
+- [More universes](#more-universes)
 - [What's new](#whats-new)
 
 ## What it is
@@ -151,7 +151,7 @@ The window can show the same view, and **Random** location moves the window some
 
 ## Get it
 
-Doctor Clawd is part of **[Clawd Clash](https://github.com/rodclemen/clawd-clash)**, one app with four universes. It needs macOS 13+ and at least one of Claude Code, Codex, Qwen Code, Gemini CLI or GitHub Copilot CLI.
+Doctor Clawd is part of **[Clawd Clash](https://github.com/rodclemen/clawd-clash)**, one app with multiple universes. It needs macOS 13+ and at least one of Claude Code, Codex, Qwen Code, Gemini CLI or GitHub Copilot CLI.
 
 Doctor Clawd isn't released yet. When it is, it comes with the next Clawd Clash release:
 
@@ -165,9 +165,9 @@ Then pick **Settings → Universe → Doctor Clawd**. Or download the zip from [
 
 Everything else (how it works, the settings, uninstalling, the source and contributing) lives in the **[Clawd Clash repo](https://github.com/rodclemen/clawd-clash)**.
 
-## Three more universes
+## More universes
 
-Doctor Clawd is one of four. In **Settings → Universe** you can switch to **[Star Clawds](https://github.com/rodclemen/star-clawds)**, **[Marvelous Clawds](https://github.com/rodclemen/marvelous-clawds)** or **[Detective Clawds](https://github.com/rodclemen/detective-clawds)**, or pick **Random** to change universe on its own every so often. Switching recasts everyone on screen and moves the scene to one of the new universe's places. Or pick **Clawd Royale** to throw all four casts into one scene, each character as themselves, in a new place from any universe every ten minutes.
+Doctor Clawd is one of multiple universes. In **Settings → Universe** you can switch to **[Star Clawds](https://github.com/rodclemen/star-clawds)**, **[Marvelous Clawds](https://github.com/rodclemen/marvelous-clawds)** or **[Detective Clawds](https://github.com/rodclemen/detective-clawds)**, or pick **Random** to change universe on its own every so often. Switching recasts everyone on screen and moves the scene to one of the new universe's places. Or pick **Clawd Royale** to throw every cast into one scene, each character as themselves, in a new place from any universe every ten minutes.
 
 ## What's new
 
