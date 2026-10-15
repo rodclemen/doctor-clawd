@@ -1,17 +1,12 @@
-# Build output (build.sh)
-build/
-
 # Personal editor settings
 .vscode/
 
 # macOS
 .DS_Store
 
-# Agent worktrees
-.claude/
+# Leftovers from when the app was built here
+build/
 
-# Rendered promo videos and storyboards (large, regenerable). The 720p copies
-# in promo/720p/ are uploaded to GitHub by hand for the README; the full 1080p
-# trailer is committed so the README can link to it
-promo/*
-!promo/doctor-clawd-promo.mp4
+# The 720p copy is uploaded to GitHub by hand; test frames stay local
+promo/720p/
+promo/vortex-frames.png

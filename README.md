@@ -167,7 +167,7 @@ Everything else (how it works, the settings, uninstalling, the source and contri
 
 ## Three more universes
 
-Doctor Clawd is one of four. In **Settings → Universe** you can switch to **Star Clawds**, **Marvelous Clawds** or **Detective Clawds**, or pick **Random** to change universe on its own every so often. Switching recasts everyone on screen and moves the scene to one of the new universe's places; a scene never mixes them. See [Clawd Clash](https://github.com/rodclemen/clawd-clash) for the other three casts.
+Doctor Clawd is one of four. In **Settings → Universe** you can switch to **[Star Clawds](https://github.com/rodclemen/star-clawds)**, **[Marvelous Clawds](https://github.com/rodclemen/marvelous-clawds)** or **[Detective Clawds](https://github.com/rodclemen/detective-clawds)**, or pick **Random** to change universe on its own every so often. Switching recasts everyone on screen and moves the scene to one of the new universe's places. Or pick **Clawd Royale** to throw all four casts into one scene, each character as themselves, in a new place from any universe every ten minutes.
 
 ## What's new
 
