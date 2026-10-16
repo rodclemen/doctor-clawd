@@ -6,4 +6,4 @@
 - Set pieces: the TARDIS materialises to pick people up; ten transitions built on the show's title sequences; the Weeping Angle only moves while nobody faces it; a Doctor regenerates when their Claude Code session compacts its context.
 - Install: Doctor Clawd ships with Clawd Clash 3.1.0 and later (`brew tap rodclemen/tap && brew install --cask clawd-clash`, then Settings → Universe → Doctor Clawd).
 - The app, its source, docs and full history: https://github.com/rodclemen/clawd-clash
-- The other universes: Star Clawds, Marvelous Clawds, Detective Clawds, The Clawd Files and Stevie Clawdberg, and Clawd Royale, which puts them all in one scene.
+- The other universes: Star Clawds, Marvelous Clawds, Detective Clawds, The Clawd Files, Stevie Clawdberg and Clawd of the Rings, and Clawd Royale, which puts them all in one scene.
